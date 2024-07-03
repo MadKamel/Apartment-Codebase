@@ -54,7 +54,7 @@ void CSledgehammer::Precache()
 	PRECACHE_SOUND("weapons/cbar_hitbod3.wav");
 	PRECACHE_SOUND("weapons/cbar_miss1.wav");
 
-	m_usSledgehammer = PRECACHE_EVENT(1, "events/crowbar.sc");
+	m_usSledgehammer = PRECACHE_EVENT(1, "events/sledgehammer.sc");
 }
 
 bool CSledgehammer::GetItemInfo(ItemInfo* p)
@@ -211,13 +211,13 @@ bool CSledgehammer::Swing(bool fFirst)
 		switch (((m_iSwing++) % 2) + 1)
 		{
 		case 0:
-			SendWeaponAnim(CROWBAR_ATTACK1HIT);
+			SendWeaponAnim(SLEDGEHAMMER_ATTACK1HIT);
 			break;
 		case 1:
-			SendWeaponAnim(CROWBAR_ATTACK2HIT);
+			SendWeaponAnim(SLEDGEHAMMER_ATTACK2HIT);
 			break;
 		case 2:
-			SendWeaponAnim(CROWBAR_ATTACK3HIT);
+			SendWeaponAnim(SLEDGEHAMMER_ATTACK3HIT);
 			break;
 		}
 
@@ -313,7 +313,7 @@ bool CSledgehammer::Swing(bool fFirst)
 		m_pPlayer->m_iWeaponVolume = flVol * SLEDGEHAMMER_WALLHIT_VOLUME;
 #endif
 		SetThink(&CSledgehammer::Smack);
-		pev->nextthink = gpGlobals->time + 0.2; //what the fuck is this
+		pev->nextthink = gpGlobals->time + 0.1; //what the fuck is this
 	}
 	return fDidHit;
 }

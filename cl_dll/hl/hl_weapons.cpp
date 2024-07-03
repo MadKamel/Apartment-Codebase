@@ -52,6 +52,7 @@ Vector previousorigin;
 // HLDM Weapon placeholder entities.
 CGlock g_Glock;
 CCrowbar g_Crowbar;
+CSledgehammer g_Sledgehammer;
 CPython g_Python;
 CMP5 g_Mp5;
 CCrossbow g_Crossbow;
@@ -452,6 +453,7 @@ void HUD_InitClientWeapons()
 	// Allocate slot(s) for each weapon that we are going to be predicting
 	HUD_PrepEntity(&g_Glock, &player);
 	HUD_PrepEntity(&g_Crowbar, &player);
+	HUD_PrepEntity(&g_Sledgehammer, &player);
 	HUD_PrepEntity(&g_Python, &player);
 	HUD_PrepEntity(&g_Mp5, &player);
 	HUD_PrepEntity(&g_Crossbow, &player);
@@ -533,6 +535,10 @@ void HUD_WeaponsPostThink(local_state_s* from, local_state_s* to, usercmd_t* cmd
 	{
 	case WEAPON_CROWBAR:
 		pWeapon = &g_Crowbar;
+		break;
+
+	case WEAPON_SLEDGEHAMMER:
+		pWeapon = &g_Sledgehammer;
 		break;
 
 	case WEAPON_GLOCK:
