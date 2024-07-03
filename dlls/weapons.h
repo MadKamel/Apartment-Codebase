@@ -72,6 +72,7 @@ public:
 
 // weapon weight factors (for auto-switching)   (-1 = noswitch)
 #define CROWBAR_WEIGHT 0
+#define SLEDGEHAMMER_WEIGHT 0
 #define GLOCK_WEIGHT 10
 #define PYTHON_WEIGHT 15
 #define MP5_WEIGHT 15
@@ -155,11 +156,12 @@ public:
 typedef enum
 {
 	BULLET_NONE = 0,
-	BULLET_PLAYER_9MM,		// glock
-	BULLET_PLAYER_MP5,		// mp5
-	BULLET_PLAYER_357,		// python
-	BULLET_PLAYER_BUCKSHOT, // shotgun
-	BULLET_PLAYER_CROWBAR,	// crowbar swipe
+	BULLET_PLAYER_9MM,			// glock
+	BULLET_PLAYER_MP5,			// mp5
+	BULLET_PLAYER_357,			// python
+	BULLET_PLAYER_BUCKSHOT,		// shotgun
+	BULLET_PLAYER_CROWBAR,		// crowbar swipe
+	BULLET_PLAYER_SLEDGEHAMMER,	// sledgehammer
 
 	BULLET_MONSTER_9MM,
 	BULLET_MONSTER_MP5,
@@ -562,6 +564,49 @@ public:
 
 private:
 	unsigned short m_usCrowbar;
+};
+
+enum sledgehammer_e
+{
+	SLEDGEHAMMER_IDLE = 0,
+	SLEDGEHAMMER_DRAW,
+	SLEDGEHAMMER_HOLSTER,
+	SLEDGEHAMMER_ATTACK1HIT,
+	SLEDGEHAMMER_ATTACK1MISS,
+	SLEDGEHAMMER_ATTACK2MISS,
+	SLEDGEHAMMER_ATTACK2HIT,
+	SLEDGEHAMMER_ATTACK3MISS,
+	SLEDGEHAMMER_ATTACK3HIT
+};
+
+class CSledgehammer : public CBasePlayerWeapon
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	int iItemSlot() override { return 1; }
+	void EXPORT SwingAgain();
+	void EXPORT Smack();
+	bool GetItemInfo(ItemInfo* p) override;
+
+	void PrimaryAttack() override;
+	bool Swing(bool fFirst);
+	bool Deploy() override;
+	void Holster() override;
+	int m_iSwing;
+	TraceResult m_trHit;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+private:
+	unsigned short m_usSledgehammer;
 };
 
 enum python_e

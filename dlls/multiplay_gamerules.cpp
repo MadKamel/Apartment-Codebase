@@ -120,6 +120,9 @@ void CHalfLifeMultiplay::RefreshSkillData()
 	// Crowbar whack
 	gSkillData.plrDmgCrowbar = 25;
 
+	// Apartment sledgehammer whack
+	gSkillData.plrDmgSledgehammer = 60;
+
 	// Glock Round
 	gSkillData.plrDmg9MM = 12;
 
