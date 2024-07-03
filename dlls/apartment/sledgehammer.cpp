@@ -29,7 +29,7 @@
 #define SLEDGEHAMMER_BODYHIT_VOLUME 128
 #define SLEDGEHAMMER_WALLHIT_VOLUME 256
 
-LINK_ENTITY_TO_CLASS(weapon_leadpipe, CSledgehammer);
+LINK_ENTITY_TO_CLASS(weapon_sledgehammer, CSledgehammer);
 
 void CSledgehammer::Spawn()
 {
@@ -65,9 +65,9 @@ bool CSledgehammer::GetItemInfo(ItemInfo* p)
 	p->pszAmmo2 = NULL;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = WEAPON_NOCLIP;
-	p->iSlot = 1;
-	p->iPosition = 0;
-	p->iId = WEAPON_SLEDGEHAMMER; //Renaming this to WEAPON_LEADPIPE breaks animations for some godforsaken reason
+	p->iSlot = 0;
+	p->iPosition = 1;
+	p->iId = WEAPON_SLEDGEHAMMER;
 	p->iWeight = SLEDGEHAMMER_WEIGHT;
 	return true;
 }
