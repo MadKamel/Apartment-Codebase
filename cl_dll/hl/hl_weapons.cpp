@@ -87,6 +87,21 @@ void AlertMessage(ALERT_TYPE atype, const char* szFmt, ...)
 	gEngfuncs.Con_Printf(string);
 }
 
+void* PvAllocEntPrivateData(edict_t* pEdict, int32 cb)
+{
+	// Not quite the same as the engine's version, but good enough for what we need
+	if (pEdict->pvPrivateData)
+	{
+		delete[] pEdict->pvPrivateData;
+	}
+
+	pEdict->pvPrivateData = new byte[cb];
+
+	memset(pEdict->pvPrivateData, 0, cb);
+
+	return pEdict->pvPrivateData;
+}
+
 //Returns if it's multiplayer.
 //Mostly used by the client side weapons.
 bool bIsMultiplayer()
@@ -99,18 +114,27 @@ void LoadVModel(const char* szViewModel, CBasePlayer* m_pPlayer)
 	gEngfuncs.CL_LoadModel(szViewModel, &m_pPlayer->pev->viewmodel);
 }
 
-/*
-=====================
-HUD_PrepEntity
-
-Links the raw entity to an entvars_s holder.  If a player is passed in as the owner, then
-we set up the m_pPlayer field.
-=====================
-*/
-void HUD_PrepEntity(CBaseEntity* pEntity, CBasePlayer* pWeaponOwner)
+edict_t* HUD_AllocEdict()
 {
-	memset(&ev[num_ents], 0, sizeof(entvars_t));
-	pEntity->pev = &ev[num_ents++];
+	edict_t* pEdict = &entities[num_ents++];
+	memset(pEdict, 0, sizeof(edict_t));
+
+	// Needed so debug code doesn't assert
+	pEdict->v.pContainingEntity = pEdict;
+
+	return pEdict;
+}
+
+void HUD_PrepWeapon(class CWeaponRegistry* pReg, CBasePlayer* pWeaponOwner)
+{
+	edict_t* pEdict = HUD_AllocEdict();
+
+	// Minor memory leak, doesn't make any difference compared to SDK code though
+	CBasePlayerWeapon* pEntity = pReg->GetFactory()(&pEdict->v);
+
+	pEntity->pev = &pEdict->v;
+
+	pEntity->pev->classname = MAKE_STRING(pReg->GetMapName());
 
 	pEntity->Precache();
 	pEntity->Spawn();
