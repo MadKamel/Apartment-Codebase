@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\dlls",
+    "\\dlls\\apartment",
     "\\projects",
     "\\projects\\vs2019"
   ],
-  "SelectedNode": "\\projects\\vs2019\\pointprint.cpp",
+  "SelectedNode": "\\projects\\vs2019\\projects.sln",
   "PreviewInSolutionExplorer": false
 }
